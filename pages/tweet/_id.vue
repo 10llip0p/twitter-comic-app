@@ -1,27 +1,34 @@
 <template>
   <section class="container">
     <div>
-      <form @submit.prevent="fetchTweets">
-        <vs-input v-model="tweetUrl" label-placeholder="最後のページのURL" />
-        <vs-button color="success" type="filled submit">見る</vs-button>
-      </form>
+      hoge
     </div>
   </section>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
+  validate({ params }) {
+    return /^\d+$/.test(params.id)
+  },
   data() {
     return {
-      tweetUrl: ''
+      tmp: null
     }
   },
-  methods: {
-    fetchTweets() {
-      this.$router.push({
-        path: `/tweet/${this.tweetUrl}`
-      })
+  async asyncData({ params }) {
+    // TODO: エラーハンドリング
+    const tweetsObj = await axios.get(
+      `${process.env.baseUrl}/api/tweet?id=${params.id}`
+    )
+    return {
+      tmp: tweetsObj
     }
+  },
+  created() {
+    console.log(this.tmp)
   }
 }
 </script>
