@@ -1,7 +1,7 @@
 <template>
   <section class="container">
     <div>
-      hoge
+      <img v-for="image in images" :key="image" :src="image" />
     </div>
   </section>
 </template>
@@ -15,20 +15,29 @@ export default {
   },
   data() {
     return {
-      tmp: null
+      loading: true,
+      images: []
     }
   },
   async asyncData({ params }) {
     // TODO: エラーハンドリング
-    const tweetsObj = await axios.get(
+    const res = await axios.get(
       `${process.env.baseUrl}/api/tweet?id=${params.id}`
     )
+
+    const tweetsObj = res.data
     return {
-      tmp: tweetsObj
+      loading: false,
+      images: (arr => {
+        tweetsObj.data.map(dataObj => {
+          arr = arr.concat(dataObj.images)
+        })
+        return arr
+      })([])
     }
   },
   created() {
-    console.log(this.tmp)
+    console.log(this.images)
   }
 }
 </script>
