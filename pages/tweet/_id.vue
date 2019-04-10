@@ -1,7 +1,14 @@
 <template>
   <section class="container">
     <div>
-      <img v-for="image in images" :key="image" :src="image" />
+      <img
+        v-for="image in images"
+        :key="image"
+        :src="image"
+        class="comic-img"
+        :width="imgSize.witdh"
+        :height="imgSize.height"
+      />
     </div>
   </section>
 </template>
@@ -16,7 +23,19 @@ export default {
   data() {
     return {
       loading: true,
-      images: []
+      images: [],
+      witdh: window.innerWidth,
+      height: window.innerHeight
+    }
+  },
+  computed: {
+    /** 画面の向きに応じて画像を縦幅と横幅のどちらかを基準にリサイズ */
+    imgSize() {
+      const isWide = this.witdh >= this.height
+      return {
+        witdh: isWide ? null : this.witdh,
+        height: isWide ? this.height : null
+      }
     }
   },
   async asyncData({ params }) {
@@ -38,6 +57,19 @@ export default {
   },
   created() {
     console.log(this.images)
+  },
+  mounted() {
+    /** ウインドウのリサイズを検知 */
+    window.addEventListener('resize', this.resizeHandler)
+  },
+  beforeDestroy() {
+    window.removeEventListener('resize', this.resizeHandler)
+  },
+  methods: {
+    resizeHandler() {
+      this.witdh = window.innerWidth
+      this.height = window.innerHeight
+    }
   }
 }
 </script>
@@ -71,5 +103,10 @@ export default {
 
 .links {
   padding-top: 15px;
+}
+
+.comic-img {
+  display: block;
+  margin: 0 auto;
 }
 </style>
