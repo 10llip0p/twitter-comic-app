@@ -18,8 +18,15 @@ export default {
   },
   methods: {
     fetchTweets() {
+      const tweetId = this.tweetUrl.match(
+        /^https?:\/\/twitter.com\/\w+\/status\/(\d+)$/
+      )
+      if (!tweetId) {
+        // TODO: バリデーション
+        return
+      }
       this.$router.push({
-        path: `/tweet/${this.tweetUrl}`
+        path: `/tweet/${tweetId[1]}`
       })
     }
   }
