@@ -3,6 +3,10 @@ import pkg from './package'
 export default {
   mode: 'spa',
 
+  env: {
+    baseUrl: 'http://localhost:3000'
+  },
+
   /*
    ** Headers of the page
    */
@@ -29,7 +33,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: ['~/plugins/vuesax.js'],
 
   /*
    ** Nuxt.js modules
@@ -43,6 +47,15 @@ export default {
    */
   axios: {
     // See https://github.com/nuxt-community/axios-module#options
+    proxy: true
+  },
+
+  proxy: {
+    // TODO: rewrite api server url
+    '/api/': {
+      target: 'http://localhost:3300',
+      pathRewrite: { '^/api/': '' }
+    }
   },
 
   /*
