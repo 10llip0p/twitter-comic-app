@@ -1,8 +1,15 @@
 <template>
   <section class="container">
     <div>
-      <form @submit.prevent="fetchTweets">
-        <vs-input v-model="tweetUrl" label-placeholder="最後のページのURL" />
+      <form
+        style="display: flex; justify-content: center"
+        @submit.prevent="fetchTweets"
+      >
+        <vs-input
+          v-model="tweetUrl"
+          label-placeholder="最後のページのURL"
+          style="display: inline"
+        />
         <vs-button color="success" type="filled submit">見る</vs-button>
       </form>
     </div>
@@ -13,7 +20,8 @@
 export default {
   data() {
     return {
-      tweetUrl: ''
+      tweetUrl: '',
+      isInValid: true
     }
   },
   methods: {
