@@ -7,35 +7,24 @@
     </v-toolbar>
     <v-content>
       <v-container fluid fill-height>
-        <v-form ref="form" v-model="isValid" lazy-validation>
-          <v-text-field
-            v-model="tweetUrl"
-            label="最後のページのURL"
-            single-line
-            outline
-            append-icon="search"
-            required
-            :rules="[
-              v =>
-                /^https?:\/\/twitter.com\/\w+\/status\/\d+$/.test(v) ||
-                'URLが不正'
-            ]"
-            @click:append="fetchTweets"
-          ></v-text-field>
-        </v-form>
-        <!--
-        <form
-          style="display: flex; justify-content: center"
-          @submit.prevent="fetchTweets"
-        >
-          <vs-input
-            v-model="tweetUrl"
-            label-placeholder="最後のページのURL"
-            style="display: inline"
-          />
-          <vs-button color="success" type="filled submit">見る</vs-button>
-        </form>
--->
+        <v-flex xs11 md8>
+          <v-form ref="form" v-model="isValid" lazy-validation>
+            <v-text-field
+              v-model="tweetUrl"
+              label="最後のページのURL"
+              single-line
+              outline
+              append-icon="search"
+              required
+              :rules="[
+                v =>
+                  /^https?:\/\/twitter.com\/\w+\/status\/\d+$/.test(v) ||
+                  'URLが不正'
+              ]"
+              @click:append="fetchTweets"
+            ></v-text-field>
+          </v-form>
+        </v-flex>
       </v-container>
     </v-content>
   </v-app>
@@ -52,13 +41,10 @@ export default {
   methods: {
     fetchTweets() {
       if (this.$refs.form.validate()) {
+        // TweetURLからTweetIDを取得
         const tweetId = this.tweetUrl.match(
           /^https?:\/\/twitter.com\/\w+\/status\/(\d+)$/
         )
-        if (!tweetId) {
-          // TODO: バリデーション
-          return
-        }
         this.$router.push({
           path: `/tweet/${tweetId[1]}`
         })
