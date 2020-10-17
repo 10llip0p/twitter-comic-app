@@ -14,7 +14,10 @@ export default {
     }
   },
   mounted() {
-    window.location.href = this.oauthUrl
+    console.log(this.oauthTokenSecret)
+    this.$store.commit('addOauthSecret', this.oauthTokenSecret)
+    console.log(this.$store.state.oauthTokenSecret)
+    // window.location.href = this.oauthUrl
   }
 }
 </script>

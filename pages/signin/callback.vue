@@ -12,6 +12,7 @@ export default {
   },
   mounted() {
     // TODO アクセストークン取得処理
+    console.log(this.$store.state.oauthTokenSecret)
     console.log(this.oauthToken)
     console.log(this.oauthVerifier)
   }
